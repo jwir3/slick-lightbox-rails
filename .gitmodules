@@ -1,0 +1,3 @@
+[submodule "slick-lightbox"]
+	path = slick-lightbox
+	url = git@github.com:mreq/slick-lightbox
