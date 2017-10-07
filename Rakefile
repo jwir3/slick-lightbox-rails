@@ -2,13 +2,13 @@ Encoding.default_external = "UTF-8" if defined?(Encoding)
 require 'json'
 require 'bundler/gem_tasks'
 
-#def version
-#  JSON.load(File.read('jquery-ui/package.json'))['version']
-#end
+def version
+  JSON.load(File.read('slick-lightbox/package.json'))['version']
+end
 
-#task :submodule do
-#  sh 'git submodule update --init' unless File.exist?('jquery-ui/README.md')
-#end
+task :submodule do
+  sh 'git submodule update --init' unless File.exist?('slick-lightbox/README.md')
+end
 
 desc "Remove the app directory"
 task :clean do
@@ -18,8 +18,7 @@ task :clean do
 end
 
 desc "Compile and minify the Javascript and CSS assets"
-#task :javascripts => :submodule do
-task :build_slick_lightbox do
+task :build_slick_lightbox => :submodule do
   source_dir = 'slick-lightbox'
   Rake.rake_output_message 'Installing npm dependencies...'
   %x( cd #{source_dir} && npm i )
@@ -27,23 +26,23 @@ task :build_slick_lightbox do
   %x( cd #{source_dir} && gulp build )
 end
 
-#desc "Update Jquery::Ui::Rails::JQUERY_UI_VERSION"
-#task :version => :submodule do
-#  Rake.rake_output_message "Setting Jquery::Ui::Rails::JQUERY_UI_VERSION = \"#{version}\""
-#
-#  versionRb = 'lib/jquery/ui/rails/version.rb'
-#  versionRbSource = File.read(versionRb)
-#  versionDefinition = "JQUERY_UI_VERSION = \"#{version}\""
-#  versionRbSource.sub! /JQUERY_UI_VERSION = "[^"]*"/, versionDefinition \
-#    or fail "Could not find JQUERY_UI_VERSION in #{versionRb}"
-#  File.open(versionRb, 'w') do |out|
-#    out.write(versionRbSource)
-#  end
-#end
+desc "Update Slick::Lightbox::Rails::SLICK_LIGHTBOX_VERSION"
+task :version => :submodule do
+  Rake.rake_output_message "Setting Slick::Lightbox::Rails::SLICK_LIGHTBOX_VERSION = \"#{version}\""
+
+  versionRb = 'lib/slick/lightbox/rails/version.rb'
+  versionRbSource = File.read(versionRb)
+  versionDefinition = "SLICK_LIGHTBOX_VERSION = \"#{version}\""
+  versionRbSource.sub! /SLICK_LIGHTBOX_VERSION = "[^"]*"/, versionDefinition \
+    or fail "Could not find SLICK_LIGHTBOX_VERSION in #{versionRb}"
+  File.open(versionRb, 'w') do |out|
+    out.write(versionRbSource)
+  end
+end
 
 desc "Move the build assets to the app dir"
 task :move_to_app_dir => :build_slick_lightbox do
-  Rake.rake_output_message 'Moving built files...' 
+  Rake.rake_output_message 'Moving built files...'
   target_dir_js = 'app/assets/javascripts/slick-lightbox'
   target_dir_css = 'app/assets/stylesheets/slick-lightbox'
 
@@ -70,8 +69,7 @@ task :generate_root_files => :move_to_app_dir do
 end
 
 desc "Clean and then generate everything (default)"
-task :assets => [:clean, :generate_root_files]
-#task :assets => [:clean, :javascripts, :stylesheets, :images, :version]
+task :assets => [:clean, :generate_root_files, :version]
 
 task :build => :assets
 
