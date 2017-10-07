@@ -17,9 +17,8 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "json", "~> 2.0"
 
-  #s.files        = `git ls-files`.split("\n").reject { |f| f =~ /^testapp|^jquery-ui/ }
   s.files         = `git ls-files`.split("\n").reject { |f| f =~ /^slick-lightbox/ }
   #s.executables  = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
-  #s.require_path = 'lib'
+  s.require_path = 'lib'
 end
 
