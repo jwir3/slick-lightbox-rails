@@ -6,7 +6,7 @@ Usage
 -------
 Install by adding to Gemfile:
 ```
-gem 'slick-lightbox-rails', >= 0.0.1
+gem 'slick-lightbox-rails', >= 0.0.2
 ```
 
 Run bundler:
